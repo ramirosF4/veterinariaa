@@ -15,15 +15,26 @@
 
                     <div class="row">
                         {{-- Columna imagen (visible solo en pantallas grandes) --}}
-                        <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                        <div class="col-lg-6 d-none d-lg-block bg-gradient-primary d-flex flex-column align-items-center justify-content-center p-5" style="min-height: 400px;">
+                            <img src="{{ asset('img/undraw_posting_photo.svg') }}"
+                                 alt="Sistema Veterinario"
+                                 class="img-fluid mb-4"
+                                 style="max-width: 260px;">
+                            <h2 class="text-white font-weight-bold text-center mb-2">
+                                <i class="fas fa-paw mr-2"></i>Sistema Veterinario
+                            </h2>
+                            <p class="text-white-50 text-center small mb-0">
+                                Gestión integral de pacientes y consultas
+                            </p>
+                        </div>
 
                         {{-- Columna formulario --}}
                         <div class="col-lg-6">
                             <div class="p-5">
 
-                                <div class="text-center">
-                                    <i class="fas fa-paw fa-3x text-primary mb-3"></i>
-                                    <h1 class="h4 text-gray-900 mb-4">Sistema Veterinario</h1>
+                                <div class="text-center mb-4">
+                                    <h1 class="h4 text-gray-900">¡Bienvenido!</h1>
+                                    <p class="text-muted small">Inicia sesión para continuar</p>
                                 </div>
 
                                 {{-- Mensajes de error --}}
