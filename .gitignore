@@ -22,3 +22,6 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Plantilla SB Admin 2 (assets de terceros)
+/public/startbootstrap/
