@@ -20,9 +20,15 @@ class AuthController extends Controller
         ];
 
         if (Auth::attempt($credenciales)) {
+            $role = Auth::user()->role;
+
+            if ($role === 'administrador') {
+                return to_route('admin.home');
+            }
+
             return to_route('home');
         } else {
-            return to_route('login');
+            return back()->withErrors(['email' => 'Credenciales incorrectas.'])->onlyInput('email');
         }
     }
 
@@ -34,5 +40,9 @@ class AuthController extends Controller
 
     public function home() {
         return view('modules/dashboard/home');
+    }
+
+    public function adminHome() {
+        return view('modules/admin/dashboard');
     }
 }
