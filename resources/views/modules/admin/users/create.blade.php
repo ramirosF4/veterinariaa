@@ -52,10 +52,8 @@
     </div>
 </div>
 
-<div class="row justify-content-center">
-    <div class="col-lg-8">
-        <div class="card shadow form-card">
-            <div class="card-header py-3">
+<div class="card shadow form-card mb-4">
+    <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-info">
                     <i class="fas fa-id-card mr-2"></i>Información del Usuario
                 </h6>
@@ -241,43 +239,11 @@
 
                 </form>
             </div>
-        </div>
     </div>
 </div>
 
 @endsection
 
 @push('scripts')
-<script>
-    // Highlight de tarjetas de rol y mostrar/ocultar campos de veterinario
-    document.querySelectorAll('.role-radio').forEach(function(radio) {
-        radio.addEventListener('change', function() {
-            document.querySelectorAll('.role-option').forEach(el => el.classList.remove('selected'));
-            this.closest('.role-option').classList.add('selected');
-            
-            // Mostrar u ocultar sección de veterinario
-            const vetFields = document.getElementById('veterinario-fields');
-            if(this.value === 'veterinario') {
-                vetFields.style.display = 'block';
-                // Añadimos una pequeña animación
-                vetFields.style.animation = 'fadeIn 0.5s ease';
-            } else {
-                vetFields.style.display = 'none';
-            }
-        });
-    });
-
-    // Toggle visibilidad de contraseña
-    function togglePassword(fieldId, btn) {
-        var field = document.getElementById(fieldId);
-        var icon = btn.querySelector('i');
-        if (field.type === 'password') {
-            field.type = 'text';
-            icon.classList.replace('fa-eye', 'fa-eye-slash');
-        } else {
-            field.type = 'password';
-            icon.classList.replace('fa-eye-slash', 'fa-eye');
-        }
-    }
-</script>
+<script src="{{ asset('js/admin/usuarios/create.js') }}"></script>
 @endpush

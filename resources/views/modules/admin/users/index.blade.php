@@ -214,6 +214,7 @@
                         <th>Usuario</th>
                         <th>Correo Electrónico</th>
                         <th>Rol</th>
+                        <th>Estado</th>
                         <th>Registro</th>
                         <th style="width:100px" class="text-center">Acciones</th>
                     </tr>
@@ -232,6 +233,16 @@
                                     @if($user->id === auth()->id())
                                         <small class="text-success"><i class="fas fa-circle" style="font-size:0.5rem"></i> Tú</small>
                                     @endif
+                                    @if($user->role === 'veterinario' && $user->veterinario)
+                                        <div class="text-muted mt-1" style="font-size: 0.75rem;">
+                                            @if($user->veterinario->especialidad)
+                                                <i class="fas fa-star text-warning"></i> {{ $user->veterinario->especialidad }}
+                                            @endif
+                                            @if($user->veterinario->cedula_profesional)
+                                                <span class="ml-1"><i class="fas fa-id-badge text-info"></i> {{ $user->veterinario->cedula_profesional }}</span>
+                                            @endif
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </td>
@@ -247,6 +258,13 @@
                                 </span>
                             @endif
                         </td>
+                        <td>
+                            @if($user->activo)
+                                <span class="badge badge-success"><i class="fas fa-check-circle mr-1"></i>Activo</span>
+                            @else
+                                <span class="badge badge-secondary"><i class="fas fa-minus-circle mr-1"></i>Inactivo</span>
+                            @endif
+                        </td>
                         <td class="small text-muted">{{ $user->created_at->format('d/m/Y') }}</td>
                         <td class="text-center">
                             {{-- Editar --}}
@@ -255,21 +273,17 @@
                                title="Editar usuario">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            {{-- Eliminar --}}
+                            {{-- Eliminar (Lleva a la vista Show para confirmación) --}}
                             @if($user->id !== auth()->id())
-                            <form action="{{ route('admin.users.destroy', $user) }}" method="POST"
-                                  class="d-inline"
-                                  onsubmit="return confirm('¿Seguro que deseas eliminar al usuario {{ addslashes($user->name) }}?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-action btn-outline-danger" title="Eliminar usuario">
+                                <a href="{{ route('admin.users.show', $user) }}"
+                                   class="btn btn-action btn-outline-danger"
+                                   title="Eliminar usuario">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            @else
+                                <button class="btn btn-action btn-outline-secondary" disabled title="No puedes eliminarte a ti mismo">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
-                            </form>
-                            @else
-                            <button class="btn btn-action btn-outline-secondary" disabled title="No puedes eliminarte a ti mismo">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
                             @endif
                         </td>
                     </tr>

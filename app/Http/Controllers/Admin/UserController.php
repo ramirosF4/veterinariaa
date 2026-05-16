@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Veterinario;
+use App\Http\Requests\Admin\StoreUserRequest;
+use App\Http\Requests\Admin\UpdateUserRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -31,11 +33,11 @@ class UserController extends Controller
             });
         }
 
-        $users = $query->latest()->paginate(10)->withQueryString();
+        $users = $query->latest()->paginate(5)->withQueryString();
 
-        $totalUsers       = User::count();
-        $totalAdmins      = User::where('role', 'administrador')->count();
-        $totalVeterinarios = User::where('role', 'veterinario')->count();
+        $totalUsers       = \Illuminate\Support\Facades\DB::table('users')->count();
+        $totalAdmins      = \Illuminate\Support\Facades\DB::table('users')->where('role', 'administrador')->count();
+        $totalVeterinarios = \Illuminate\Support\Facades\DB::table('users')->where('role', 'veterinario')->count();
 
         return view('modules.admin.users.index', compact(
             'users',
@@ -56,27 +58,8 @@ class UserController extends Controller
     /**
      * Guardar nuevo usuario en BD.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $request->validate([
-            'name'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'email', 'unique:users,email'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'role'     => ['required', Rule::in(['administrador', 'veterinario'])],
-            'especialidad' => ['nullable', 'string', 'max:255'],
-            'cedula_profesional' => ['nullable', 'string', 'max:255'],
-        ], [
-            'name.required'      => 'El nombre es obligatorio.',
-            'email.required'     => 'El correo electrónico es obligatorio.',
-            'email.email'        => 'El formato del correo no es válido.',
-            'email.unique'       => 'Este correo ya está registrado.',
-            'password.required'  => 'La contraseña es obligatoria.',
-            'password.min'       => 'La contraseña debe tener al menos 8 caracteres.',
-            'password.confirmed' => 'Las contraseñas no coinciden.',
-            'role.required'      => 'Debes seleccionar un rol.',
-            'role.in'            => 'El rol seleccionado no es válido.',
-        ]);
-
         $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
@@ -98,6 +81,28 @@ class UserController extends Controller
     }
 
     /**
+     * Confirmar eliminación de usuario y verificar dependencias (Vista Show).
+     */
+    public function show(User $user)
+    {
+        $hasDependencies = false;
+        $dependencyMessage = '';
+
+        // Validar dependencias si es veterinario
+        if ($user->role === 'veterinario' && $user->veterinario) {
+            $consultasCount = $user->veterinario->consultas()->count();
+            if ($consultasCount > 0) {
+                $hasDependencies = true;
+                $dependencyMessage = "Este veterinario tiene {$consultasCount} consulta(s) médica(s) asociada(s).";
+            }
+        }
+
+        // Si hubiera más roles con dependencias, se agregarían aquí las validaciones adicionales
+
+        return view('modules.admin.users.show', compact('user', 'hasDependencies', 'dependencyMessage'));
+    }
+
+    /**
      * Formulario para editar un usuario.
      */
     public function edit(User $user)
@@ -108,30 +113,13 @@ class UserController extends Controller
     /**
      * Actualizar datos del usuario.
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $request->validate([
-            'name'  => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
-            'role'  => ['required', Rule::in(['administrador', 'veterinario'])],
-            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
-            'especialidad' => ['nullable', 'string', 'max:255'],
-            'cedula_profesional' => ['nullable', 'string', 'max:255'],
-        ], [
-            'name.required'      => 'El nombre es obligatorio.',
-            'email.required'     => 'El correo electrónico es obligatorio.',
-            'email.email'        => 'El formato del correo no es válido.',
-            'email.unique'       => 'Este correo ya está registrado por otro usuario.',
-            'role.required'      => 'Debes seleccionar un rol.',
-            'role.in'            => 'El rol seleccionado no es válido.',
-            'password.min'       => 'La contraseña debe tener al menos 8 caracteres.',
-            'password.confirmed' => 'Las contraseñas no coinciden.',
-        ]);
-
         $data = [
-            'name'  => $request->name,
-            'email' => $request->email,
-            'role'  => $request->role,
+            'name'   => $request->name,
+            'email'  => $request->email,
+            'role'   => $request->role,
+            'activo' => $request->activo,
         ];
 
         if ($request->filled('password')) {
@@ -165,11 +153,18 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         // Evitar que el admin se elimine a sí mismo
-        if ($user->id === auth()->id()) {
+        if ($user->id === Auth::id()) {
             return back()->with('error', 'No puedes eliminar tu propia cuenta.');
         }
 
-        $user->delete();
+        // Validación de backend por si intentan saltarse la vista show
+        if ($user->role === 'veterinario' && $user->veterinario) {
+            if ($user->veterinario->consultas()->exists()) {
+                return back()->with('error', 'No se puede eliminar el usuario porque tiene consultas médicas asociadas.');
+            }
+        }
+
+        User::destroy($user->id);
 
         return redirect()->route('admin.users.index')
             ->with('success', 'Usuario eliminado correctamente.');
