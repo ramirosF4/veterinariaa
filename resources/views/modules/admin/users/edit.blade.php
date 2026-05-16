@@ -6,41 +6,7 @@
 @section('titulo_pagina', 'Editar Usuario')
 
 @push('styles')
-<style>
-    .form-card { border-top: 4px solid #36b9cc; }
-    .form-label-custom {
-        font-size: 0.8rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: #5a5c69;
-        margin-bottom: 0.35rem;
-    }
-    .form-control:focus { border-color: #36b9cc; box-shadow: 0 0 0 0.2rem rgba(54,185,204,.2); }
-    .role-option {
-        border: 2px solid #e3e6f0;
-        border-radius: 10px;
-        padding: 1rem 1.25rem;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-    .role-option:hover { border-color: #36b9cc; background: #f0fafc; }
-    .role-option.selected { border-color: #36b9cc; background: #ebf8fb; }
-    .password-toggle { cursor: pointer; }
-    .user-meta-badge {
-        font-size: 0.75rem;
-        background: #f0fafc;
-        border: 1px solid #9de3ec;
-        color: #258391;
-        padding: 0.3rem 0.75rem;
-        border-radius: 50rem;
-    }
-    
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-</style>
+<link rel="stylesheet" href="{{ asset('css/admin/users/create.css') }}">
 @endpush
 
 @section('contenido')
