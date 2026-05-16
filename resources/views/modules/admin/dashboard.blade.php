@@ -110,10 +110,10 @@
                 </div>
                 <div class="card-body">
                     <p class="text-gray-600 mb-3">Administra los usuarios del sistema, asigna roles y gestiona permisos.</p>
-                    <a href="#" class="btn btn-info btn-sm">
+                    <a href="{{ route('admin.users.index') }}" class="btn btn-info btn-sm">
                         <i class="fas fa-users mr-1"></i> Ver Usuarios
                     </a>
-                    <a href="#" class="btn btn-outline-info btn-sm ml-2">
+                    <a href="{{ route('admin.users.create') }}" class="btn btn-outline-info btn-sm ml-2">
                         <i class="fas fa-user-plus mr-1"></i> Nuevo Usuario
                     </a>
                 </div>

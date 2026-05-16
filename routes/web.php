@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware("guest")->group(function () {
@@ -14,4 +15,16 @@ Route::middleware("auth")->group(function () {
 
     // Rutas del Administrador
     Route::get('/admin/home', [AuthController::class, 'adminHome'])->name('admin.home');
+
+    // Gestión de Usuarios (CRUD)
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::resource('users', UserController::class)->names([
+            'index'   => 'users.index',
+            'create'  => 'users.create',
+            'store'   => 'users.store',
+            'edit'    => 'users.edit',
+            'update'  => 'users.update',
+            'destroy' => 'users.destroy',
+        ]);
+    });
 });

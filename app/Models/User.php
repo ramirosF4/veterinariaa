@@ -22,6 +22,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'activo',
     ];
 
     /**
@@ -44,6 +46,12 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'activo' => 'boolean',
         ];
+    }
+
+    public function veterinario()
+    {
+        return $this->hasOne(Veterinario::class, 'usuario_id');
     }
 }
