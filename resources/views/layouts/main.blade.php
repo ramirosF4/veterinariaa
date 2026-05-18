@@ -26,13 +26,15 @@
     @stack('styles')
 </head>
 
-<body id="page-top">
+<body id="page-top" class="@yield('body_class')">
 
     {{-- ===== PAGE WRAPPER ===== --}}
     <div id="wrapper">
 
         {{-- ===== SIDEBAR ===== --}}
-        @include('layouts.partials.sidebar')
+        @unless(View::hasSection('hide_sidebar'))
+            @include('layouts.partials.sidebar')
+        @endunless
         {{-- ===== FIN SIDEBAR ===== --}}
 
         {{-- ===== CONTENT WRAPPER ===== --}}

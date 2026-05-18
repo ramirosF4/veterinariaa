@@ -2,7 +2,7 @@
      PARTIAL: Sidebar de navegación lateral
      Basado en SB Admin 2 — acordeón con menú veterinaria
      ============================================================ --}}
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion @yield('sidebar_class')" id="accordionSidebar">
 
     {{-- Sidebar Brand --}}
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('home') }}">

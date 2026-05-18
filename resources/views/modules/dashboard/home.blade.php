@@ -1,6 +1,8 @@
 {{-- Dashboard Home — usa el layout principal con sidebar --}}
 @extends('layouts.main')
 
+@section('hide_sidebar', true)
+
 @section('titulo_pagina', 'Dashboard')
 
 @section('contenido')

@@ -9,9 +9,26 @@
         <i class="fa fa-bars"></i>
     </button>
 
-    {{-- Spacer --}}
-    <div class="mr-auto"></div>
+    {{-- Enlaces de navegación superior --}}
+    <ul class="navbar-nav mr-auto align-items-center">
+        {{-- Pestaña: Inicio --}}
+        <li class="nav-item mx-2 {{ request()->routeIs('home') ? 'active' : '' }}">
+            <a class="nav-link text-lg" href="{{ route('home') }}" 
+               style="color: {{ request()->routeIs('home') ? '#4e73df' : '#858796' }}; border-bottom: {{ request()->routeIs('home') ? '2px solid #4e73df' : 'none' }};">
+                <i class="fas fa-home mr-1"></i>
+                <span class="font-weight-bold">Inicio</span>
+            </a>
+        </li>
 
+        {{-- Pestaña: Expedientes --}}
+        <li class="nav-item mx-2 {{ request()->routeIs('expedientes.*') ? 'active' : '' }}">
+            <a class="nav-link text-lg" href="{{ route('expedientes.index') }}" 
+               style="color: {{ request()->routeIs('expedientes.*') ? '#4e73df' : '#858796' }}; border-bottom: {{ request()->routeIs('expedientes.*') ? '2px solid #4e73df' : 'none' }};">
+                <i class="fas fa-folder-open mr-1"></i>
+                <span class="font-weight-bold">Expedientes</span>
+            </a>
+        </li>
+    </ul>
     {{-- Topbar Navbar --}}
     <ul class="navbar-nav ml-auto">
 

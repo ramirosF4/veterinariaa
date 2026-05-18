@@ -13,6 +13,9 @@ Route::middleware("auth")->group(function () {
     Route::get('/home', [AuthController::class, 'home'])->name('home');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
+    // Rutas de Expedientes
+    Route::view('/expedientes', 'modules.expedientes.index')->name('expedientes.index');
+
     // Rutas del Administrador
     Route::get('/admin/home', [AuthController::class, 'adminHome'])->name('admin.home');
 
