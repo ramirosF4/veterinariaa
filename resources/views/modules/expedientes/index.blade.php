@@ -17,16 +17,21 @@
         </div>
         <div class="card-body text-center py-5">
             
-            {{-- Barra de Búsqueda --}}
+            {{-- Barra de Búsqueda con Dropdown --}}
             <div class="row justify-content-center mb-4">
-                <div class="col-lg-8 col-md-10">
+                <div class="col-lg-8 col-md-10 position-relative">
                     <div class="input-group input-group-lg shadow-sm">
-                        <input type="text" class="form-control" placeholder="Buscar paciente por nombre, ID o dueño..." aria-label="Buscar expediente">
+                        <input type="text" id="searchInput" class="form-control" placeholder="Buscar paciente por nombre, ID o dueño..." aria-label="Buscar expediente" autocomplete="off" data-url="{{ route('expedientes.buscar') }}">
                         <div class="input-group-append">
-                            <button class="btn btn-primary px-4" type="button">
+                            <button class="btn btn-primary px-4" type="button" id="searchButton">
                                 <i class="fas fa-search"></i> Buscar
                             </button>
                         </div>
+                    </div>
+                    
+                    {{-- Contenedor de Sugerencias --}}
+                    <div id="searchResults" class="dropdown-menu w-100 shadow mt-1" style="display: none; position: absolute; z-index: 1000; text-align: left; max-height: 300px; overflow-y: auto;">
+                        <!-- Los resultados de búsqueda se inyectarán aquí mediante JS -->
                     </div>
                 </div>
             </div>
@@ -53,3 +58,7 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/expedientes.js') }}"></script>
+@endpush

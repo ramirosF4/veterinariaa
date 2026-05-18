@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Mascota extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $fillable = [
         'dueno_id',
@@ -24,6 +25,20 @@ class Mascota extends Model
         'fecha_nacimiento' => 'date',
         'es_adoptado' => 'boolean',
     ];
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array<string, mixed>
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'nombre' => $this->nombre,
+            'dueno_nombre' => $this->dueno ? $this->dueno->nombre_completo : '',
+        ];
+    }
 
     public function dueno()
     {
