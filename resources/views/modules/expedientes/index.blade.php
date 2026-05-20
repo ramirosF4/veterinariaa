@@ -20,14 +20,7 @@
             {{-- Barra de Búsqueda con Dropdown --}}
             <div class="row justify-content-center mb-4">
                 <div class="col-lg-8 col-md-10 position-relative">
-                    <div class="input-group input-group-lg shadow-sm">
-                        <input type="text" id="searchInput" class="form-control" placeholder="Buscar paciente por nombre, ID o dueño..." aria-label="Buscar expediente" autocomplete="off" data-url="{{ route('expedientes.buscar') }}">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary px-4" type="button" id="searchButton">
-                                <i class="fas fa-search"></i> Buscar
-                            </button>
-                        </div>
-                    </div>
+                    <input type="text" id="searchInput" class="form-control form-control-lg shadow-sm" placeholder="Buscar paciente por nombre, ID o dueño..." aria-label="Buscar expediente" autocomplete="off" data-url="{{ route('expedientes.buscar') }}">
                     
                     {{-- Contenedor de Sugerencias --}}
                     <div id="searchResults" class="dropdown-menu w-100 shadow mt-1" style="display: none; position: absolute; z-index: 1000; text-align: left; max-height: 300px; overflow-y: auto;">
@@ -39,7 +32,8 @@
             {{-- Botones de Acción --}}
             <div class="row justify-content-center mt-4">
                 <div class="col-12">
-                    <button class="btn btn-info btn-icon-split btn-lg mx-2 mb-3 shadow-sm">
+                    <input type="hidden" id="selectedMascotaId" value="">
+                    <button id="btnVerConsultas" class="btn btn-info btn-icon-split btn-lg mx-2 mb-3 shadow-sm" data-base-url="{{ url('expedientes') }}" disabled>
                         <span class="icon text-white-50">
                             <i class="fas fa-stethoscope"></i>
                         </span>

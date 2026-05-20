@@ -16,6 +16,7 @@ Route::middleware("auth")->group(function () {
     // Rutas de Expedientes
     Route::get('/expedientes', [App\Http\Controllers\ExpedienteController::class, 'index'])->name('expedientes.index');
     Route::get('/expedientes/buscar', [App\Http\Controllers\ExpedienteController::class, 'buscar'])->name('expedientes.buscar');
+    Route::get('/expedientes/{id}/consultas', [App\Http\Controllers\ExpedienteController::class, 'consultas'])->name('expedientes.consultas');
 
     // Rutas del Administrador
     Route::get('/admin/home', [AuthController::class, 'adminHome'])->name('admin.home');

@@ -14,6 +14,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     searchInput.addEventListener('input', function() {
+        // Reiniciar el botón y el ID seleccionado si se edita la búsqueda
+        const btnVer = document.getElementById('btnVerConsultas');
+        if(btnVer) btnVer.disabled = true;
+        const hiddenInput = document.getElementById('selectedMascotaId');
+        if(hiddenInput) hiddenInput.value = '';
+
         clearTimeout(debounceTimer);
         const query = this.value.trim();
 
@@ -53,8 +59,14 @@ document.addEventListener('DOMContentLoaded', function () {
                                 e.preventDefault();
                                 searchInput.value = this.getAttribute('data-nombre');
                                 searchResults.style.display = 'none';
-                                // Aquí puedes disparar una acción para cargar el expediente
-                                console.log('Folio seleccionado:', this.getAttribute('data-id'));
+                                
+                                const id = this.getAttribute('data-id');
+                                document.getElementById('selectedMascotaId').value = id;
+                                const btnVer = document.getElementById('btnVerConsultas');
+                                if(btnVer) {
+                                    btnVer.disabled = false;
+                                }
+                                console.log('Folio seleccionado:', id);
                             });
                         });
                     }
@@ -64,4 +76,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 .catch(error => console.error('Error:', error));
         }, 300); // 300ms de retraso (Debounce)
     });
+
+    const btnVerConsultas = document.getElementById('btnVerConsultas');
+    if (btnVerConsultas) {
+        btnVerConsultas.addEventListener('click', function() {
+            const id = document.getElementById('selectedMascotaId').value;
+            if (id) {
+                const baseUrl = this.getAttribute('data-base-url');
+                window.location.href = `${baseUrl}/${id}/consultas`;
+            }
+        });
+    }
 });

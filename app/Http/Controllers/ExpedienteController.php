@@ -34,4 +34,10 @@ class ExpedienteController extends Controller
 
         return response()->json($resultados);
     }
+
+    public function consultas($id)
+    {
+        $mascota = Mascota::with(['consultas.veterinario', 'dueno'])->findOrFail($id);
+        return view('modules.expedientes.consultas', compact('mascota'));
+    }
 }
