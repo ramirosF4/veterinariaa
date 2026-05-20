@@ -17,6 +17,11 @@ Route::middleware("auth")->group(function () {
     Route::get('/expedientes', [App\Http\Controllers\ExpedienteController::class, 'index'])->name('expedientes.index');
     Route::get('/expedientes/buscar', [App\Http\Controllers\ExpedienteController::class, 'buscar'])->name('expedientes.buscar');
     Route::get('/expedientes/{id}/consultas', [App\Http\Controllers\ExpedienteController::class, 'consultas'])->name('expedientes.consultas');
+    Route::get('/expedientes/{id}/consultas/{consulta_id}', [App\Http\Controllers\ExpedienteController::class, 'verConsulta'])->name('expedientes.consultas.ver');
+    Route::get('/expedientes/{id}/consultas/{consulta_id}/diagnostico', [App\Http\Controllers\ExpedienteController::class, 'diagnostico'])->name('expedientes.consultas.diagnostico');
+    Route::put('/expedientes/{id}/consultas/{consulta_id}/diagnostico', [App\Http\Controllers\ExpedienteController::class, 'guardarDiagnostico'])->name('expedientes.consultas.diagnostico.guardar');
+    Route::get('/expedientes/{id}/consultas/{consulta_id}/tratamiento', [App\Http\Controllers\ExpedienteController::class, 'tratamiento'])->name('expedientes.consultas.tratamiento');
+    Route::put('/expedientes/{id}/consultas/{consulta_id}/tratamiento', [App\Http\Controllers\ExpedienteController::class, 'guardarTratamiento'])->name('expedientes.consultas.tratamiento.guardar');
 
     // Rutas del Administrador
     Route::get('/admin/home', [AuthController::class, 'adminHome'])->name('admin.home');

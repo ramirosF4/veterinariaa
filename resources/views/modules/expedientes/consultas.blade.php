@@ -5,6 +5,15 @@
 @section('titulo_pagina', 'Consultas de ' . $mascota->nombre)
 
 @section('contenido')
+    <!-- Migajas de Pan -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-white border-left-primary shadow-sm rounded mb-4">
+            <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="fas fa-home"></i> Inicio</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('expedientes.index') }}">Expedientes</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Consultas de {{ $mascota->nombre }}</li>
+        </ol>
+    </nav>
+
     <h1 class="h3 mb-4 text-gray-800 font-weight-light">Historial de Consultas</h1>
 
     <!-- Tarjeta de Información -->
@@ -83,9 +92,9 @@
                                 <td class="align-middle">{{ $consulta->talla ? $consulta->talla . ' cm' : '—' }}</td>
                                 <td class="align-middle">{{ $consulta->diagnostico ?? '—' }}</td>
                                 <td class="align-middle text-center">
-                                    <button class="btn btn-sm btn-info shadow-sm">
+                                    <a href="{{ route('expedientes.consultas.ver', ['id' => $mascota->id, 'consulta_id' => $consulta->id]) }}" class="btn btn-sm btn-info shadow-sm">
                                         <i class="fas fa-eye fa-sm text-white-50 mr-1"></i> Ver
-                                    </button>
+                                    </a>
                                 </td>
                             </tr>
                             @endforeach

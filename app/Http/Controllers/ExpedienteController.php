@@ -40,4 +40,84 @@ class ExpedienteController extends Controller
         $mascota = Mascota::with(['consultas.veterinario', 'dueno'])->findOrFail($id);
         return view('modules.expedientes.consultas', compact('mascota'));
     }
+
+    public function verConsulta($id, $consulta_id)
+    {
+        $mascota = Mascota::with([
+            'dueno', 
+            'antecedenteAlergias', 
+            'antecedenteLesiones', 
+            'antecedentePatologicos', 
+            'historialAlimentaciones'
+        ])->findOrFail($id);
+
+        $consulta = \App\Models\Consulta::with('veterinario')
+            ->where('id', $consulta_id)
+            ->where('mascota_id', $id)
+            ->firstOrFail();
+
+        return view('modules.expedientes.consulta_detalle', compact('mascota', 'consulta'));
+    }
+
+    public function diagnostico($id, $consulta_id)
+    {
+        $mascota = Mascota::findOrFail($id);
+        $consulta = \App\Models\Consulta::query()->where('id', $consulta_id)
+            ->where('mascota_id', $id)
+            ->firstOrFail();
+
+        return view('modules.expedientes.diagnostico', compact('mascota', 'consulta'));
+    }
+
+    public function guardarDiagnostico(Request $request, $id, $consulta_id)
+    {
+        $request->validate([
+            'diagnostico' => 'nullable|string'
+        ]);
+
+        $consulta = \App\Models\Consulta::query()->where('id', $consulta_id)
+            ->where('mascota_id', $id)
+            ->firstOrFail();
+
+        $esNuevo = empty($consulta->diagnostico);
+
+        $consulta->diagnostico = $request->input('diagnostico');
+        $consulta->save();
+
+        $mensaje = $esNuevo ? 'Se guardó la nueva información con éxito.' : 'Se actualizó con éxito.';
+
+        return redirect()->route('expedientes.consultas.diagnostico', ['id' => $id, 'consulta_id' => $consulta_id])
+            ->with('success', $mensaje);
+    }
+
+    public function tratamiento($id, $consulta_id)
+    {
+        $mascota = Mascota::findOrFail($id);
+        $consulta = \App\Models\Consulta::query()->where('id', $consulta_id)
+            ->where('mascota_id', $id)
+            ->firstOrFail();
+
+        return view('modules.expedientes.tratamiento', compact('mascota', 'consulta'));
+    }
+
+    public function guardarTratamiento(Request $request, $id, $consulta_id)
+    {
+        $request->validate([
+            'tratamiento' => 'nullable|string'
+        ]);
+
+        $consulta = \App\Models\Consulta::query()->where('id', $consulta_id)
+            ->where('mascota_id', $id)
+            ->firstOrFail();
+
+        $esNuevo = empty($consulta->tratamiento);
+
+        $consulta->tratamiento = $request->input('tratamiento');
+        $consulta->save();
+
+        $mensaje = $esNuevo ? 'Se guardó la nueva información con éxito.' : 'Se actualizó con éxito.';
+
+        return redirect()->route('expedientes.consultas.tratamiento', ['id' => $id, 'consulta_id' => $consulta_id])
+            ->with('success', $mensaje);
+    }
 }

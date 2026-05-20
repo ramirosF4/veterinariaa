@@ -19,6 +19,8 @@ document.addEventListener('DOMContentLoaded', function () {
         if(btnVer) btnVer.disabled = true;
         const hiddenInput = document.getElementById('selectedMascotaId');
         if(hiddenInput) hiddenInput.value = '';
+        const preview = document.getElementById('previewContainer');
+        if(preview) preview.style.display = 'none';
 
         clearTimeout(debounceTimer);
         const query = this.value.trim();
@@ -39,8 +41,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     } else {
                         data.forEach(item => {
                             const dueno = item.dueno ? item.dueno.nombre_completo : 'Sin dueño asignado';
+                            const telefono = item.dueno && item.dueno.telefono ? item.dueno.telefono : 'Sin teléfono';
                             const html = `
-                                <a href="#" class="dropdown-item py-2 border-bottom result-item" data-id="${item.id}" data-nombre="${item.nombre}">
+                                <a href="#" class="dropdown-item py-2 border-bottom result-item" 
+                                   data-id="${item.id}" 
+                                   data-nombre="${item.nombre}"
+                                   data-especie="${item.especie}"
+                                   data-raza="${item.raza}"
+                                   data-dueno-nombre="${dueno}"
+                                   data-dueno-telefono="${telefono}">
                                     <div class="font-weight-bold text-gray-800">
                                         <i class="fas fa-paw text-primary mr-1"></i> ${item.nombre}
                                         <span class="badge badge-info ml-1">Folio: ${item.id}</span>
@@ -62,6 +71,19 @@ document.addEventListener('DOMContentLoaded', function () {
                                 
                                 const id = this.getAttribute('data-id');
                                 document.getElementById('selectedMascotaId').value = id;
+                                
+                                // Rellenar la tarjeta de previsualización
+                                document.getElementById('previewNombre').innerText = this.getAttribute('data-nombre');
+                                document.getElementById('previewDetalles').innerHTML = `Folio #${id} &bull; ${this.getAttribute('data-especie')} / ${this.getAttribute('data-raza')}`;
+                                document.getElementById('previewDueno').innerText = this.getAttribute('data-dueno-nombre');
+                                document.getElementById('previewTelefono').innerText = this.getAttribute('data-dueno-telefono');
+                                
+                                // Mostrar la tarjeta
+                                const previewContainer = document.getElementById('previewContainer');
+                                if (previewContainer) {
+                                    previewContainer.style.display = 'flex';
+                                }
+
                                 const btnVer = document.getElementById('btnVerConsultas');
                                 if(btnVer) {
                                     btnVer.disabled = false;
