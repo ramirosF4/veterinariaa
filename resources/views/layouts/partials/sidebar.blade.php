@@ -12,7 +12,7 @@
         <div class="sidebar-brand-text mx-3">Veterinaria</div>
     </a>
 
-    @if(request()->routeIs(['expedientes.consultas.ver', 'expedientes.consultas.diagnostico', 'expedientes.consultas.tratamiento', 'expedientes.alergias', 'expedientes.patologicos']))
+    @if(request()->routeIs(['expedientes.consultas.ver', 'expedientes.consultas.diagnostico', 'expedientes.consultas.tratamiento', 'expedientes.alergias', 'expedientes.patologicos', 'expedientes.lesiones']))
         
         {{-- Divider --}}
         <hr class="sidebar-divider">
@@ -61,8 +61,8 @@
         </li>
 
         {{-- Nav Item - Lesiones --}}
-        <li class="nav-item">
-            <a class="nav-link" href="#antecedentes_lesiones">
+        <li class="nav-item {{ request()->routeIs('expedientes.lesiones') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('expedientes.lesiones', ['id' => request()->route('id'), 'consulta_id' => $currentConsultaId ?? null]) }}">
                 <i class="fas fa-fw fa-band-aid"></i>
                 <span>Lesiones Previas</span>
             </a>

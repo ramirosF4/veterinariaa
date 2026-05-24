@@ -189,4 +189,55 @@ class ExpedienteController extends Controller
         return redirect()->route('expedientes.patologicos', $id)
             ->with('success', 'Registro eliminado exitosamente.');
     }
+    public function lesiones($id)
+    {
+        $mascota = Mascota::with('antecedenteLesiones')->findOrFail($id);
+        return view('modules.expedientes.lesiones', compact('mascota'));
+    }
+
+    public function guardarLesion(Request $request, $id)
+    {
+        $request->validate([
+            'tipo_lesion' => 'required|string|max:255',
+            'ubicacion' => 'required|string|max:255',
+            'gravedad' => 'nullable|string|max:255',
+            'fecha_lesion' => 'nullable|date',
+            'descripcion' => 'nullable|string',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $mascota = Mascota::findOrFail($id);
+        
+        $imagenPath = null;
+        if ($request->hasFile('imagen')) {
+            $imagenPath = $request->file('imagen')->store('lesiones', 'public');
+        }
+        
+        $mascota->antecedenteLesiones()->create([
+            'tipo_lesion' => $request->input('tipo_lesion'),
+            'ubicacion' => $request->input('ubicacion'),
+            'gravedad' => $request->input('gravedad'),
+            'fecha_lesion' => $request->input('fecha_lesion'),
+            'descripcion' => $request->input('descripcion'),
+            'imagen_path' => $imagenPath,
+        ]);
+
+        return redirect()->route('expedientes.lesiones', $id)
+            ->with('success', 'Lesión registrada exitosamente.');
+    }
+
+    public function eliminarLesion($id, $lesion_id)
+    {
+        $mascota = Mascota::findOrFail($id);
+        $lesion = $mascota->antecedenteLesiones()->findOrFail($lesion_id);
+        
+        if ($lesion->imagen_path) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($lesion->imagen_path);
+        }
+
+        $lesion->delete();
+
+        return redirect()->route('expedientes.lesiones', $id)
+            ->with('success', 'Lesión eliminada exitosamente.');
+    }
 }

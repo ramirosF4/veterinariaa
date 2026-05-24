@@ -12,6 +12,11 @@ class AntecedenteLesion extends Model
     protected $fillable = [
         'mascota_id',
         'tipo_lesion',
+        'ubicacion',
+        'gravedad',
+        'fecha_lesion',
+        'descripcion',
+        'imagen_path',
     ];
 
     public function mascota()
