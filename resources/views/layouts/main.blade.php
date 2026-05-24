@@ -84,6 +84,9 @@
     {{-- SB Admin 2 scripts --}}
     <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
 
+    {{-- Módulos genéricos --}}
+    <script src="{{ asset('js/modulos.js') }}"></script>
+
     {{-- Scripts adicionales por vista --}}
     @stack('scripts')
 

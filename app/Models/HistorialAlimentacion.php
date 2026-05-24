@@ -13,6 +13,10 @@ class HistorialAlimentacion extends Model
         'mascota_id',
         'descripcion_dieta',
         'frecuencia_diaria',
+        'tipo_alimento',
+        'marca_producto',
+        'cantidad_porcion',
+        'observaciones',
     ];
 
     public function mascota()

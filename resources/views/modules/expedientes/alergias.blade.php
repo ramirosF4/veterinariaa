@@ -133,18 +133,4 @@
     </div>
 @endsection
 
-@push('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const deleteForms = document.querySelectorAll('.form-eliminar');
-        deleteForms.forEach(form => {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                if(confirm('¿Está seguro de que desea eliminar este registro de alergia? Esta acción no se puede deshacer.')) {
-                    this.submit();
-                }
-            });
-        });
-    });
-</script>
-@endpush
+

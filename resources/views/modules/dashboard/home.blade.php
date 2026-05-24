@@ -27,7 +27,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Pacientes</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">—</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $stats['pacientes'] ?? '0' }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-dog fa-2x text-gray-300"></i>
@@ -43,7 +43,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Consultas hoy</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">—</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $stats['consultas_hoy'] ?? '0' }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-stethoscope fa-2x text-gray-300"></i>
@@ -59,7 +59,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Propietarios</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">—</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $stats['propietarios'] ?? '0' }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-users fa-2x text-gray-300"></i>
@@ -75,7 +75,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Citas pendientes</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">—</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $stats['citas_pendientes'] ?? '0' }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-calendar-check fa-2x text-gray-300"></i>

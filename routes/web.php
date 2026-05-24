@@ -38,6 +38,11 @@ Route::middleware("auth")->group(function () {
     Route::post('/expedientes/{id}/lesiones', [App\Http\Controllers\ExpedienteController::class, 'guardarLesion'])->name('expedientes.lesiones.guardar');
     Route::delete('/expedientes/{id}/lesiones/{lesion_id}', [App\Http\Controllers\ExpedienteController::class, 'eliminarLesion'])->name('expedientes.lesiones.eliminar');
 
+    // Rutas de Alimentación
+    Route::get('/expedientes/{id}/alimentacion', [App\Http\Controllers\ExpedienteController::class, 'alimentacion'])->name('expedientes.alimentacion');
+    Route::post('/expedientes/{id}/alimentacion', [App\Http\Controllers\ExpedienteController::class, 'guardarAlimentacion'])->name('expedientes.alimentacion.guardar');
+    Route::delete('/expedientes/{id}/alimentacion/{alimentacion_id}', [App\Http\Controllers\ExpedienteController::class, 'eliminarAlimentacion'])->name('expedientes.alimentacion.eliminar');
+
 
     // Rutas del Administrador
     Route::get('/admin/home', [AuthController::class, 'adminHome'])->name('admin.home');

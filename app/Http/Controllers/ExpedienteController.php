@@ -240,4 +240,49 @@ class ExpedienteController extends Controller
         return redirect()->route('expedientes.lesiones', $id)
             ->with('success', 'Lesión eliminada exitosamente.');
     }
+    public function alimentacion($id)
+    {
+        // Ordenar de más reciente a más antiguo
+        $mascota = Mascota::with(['historialAlimentaciones' => function($q) {
+            $q->orderBy('created_at', 'desc');
+        }])->findOrFail($id);
+        return view('modules.expedientes.alimentacion', compact('mascota'));
+    }
+
+    public function guardarAlimentacion(Request $request, $id)
+    {
+        $request->validate([
+            'tipo_alimento' => 'required|string|max:255',
+            'marca_producto' => 'nullable|string|max:255',
+            'cantidad_porcion' => 'nullable|string|max:255',
+            'frecuencia_diaria' => 'required|integer|min:1',
+            'descripcion_dieta' => 'required|string',
+            'observaciones' => 'nullable|string',
+        ]);
+
+        $mascota = Mascota::findOrFail($id);
+        
+        $mascota->historialAlimentaciones()->create([
+            'tipo_alimento' => $request->input('tipo_alimento'),
+            'marca_producto' => $request->input('marca_producto'),
+            'cantidad_porcion' => $request->input('cantidad_porcion'),
+            'frecuencia_diaria' => $request->input('frecuencia_diaria'),
+            'descripcion_dieta' => $request->input('descripcion_dieta'),
+            'observaciones' => $request->input('observaciones'),
+        ]);
+
+        return redirect()->route('expedientes.alimentacion', $id)
+            ->with('success', 'Dieta alimenticia registrada exitosamente.');
+    }
+
+    public function eliminarAlimentacion($id, $alimentacion_id)
+    {
+        $mascota = Mascota::findOrFail($id);
+        $alimentacion = $mascota->historialAlimentaciones()->findOrFail($alimentacion_id);
+        
+        $alimentacion->delete();
+
+        return redirect()->route('expedientes.alimentacion', $id)
+            ->with('success', 'Registro de alimentación eliminado exitosamente.');
+    }
 }

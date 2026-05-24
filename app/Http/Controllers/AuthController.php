@@ -39,7 +39,13 @@ class AuthController extends Controller
     }
 
     public function home() {
-        return view('modules/dashboard/home');
+        $stats = [
+            'pacientes' => \App\Models\Mascota::count(),
+            'consultas_hoy' => \App\Models\Consulta::whereDate('fecha_consulta', \Carbon\Carbon::today())->count(),
+            'propietarios' => \App\Models\Dueno::count(),
+            'citas_pendientes' => \App\Models\Consulta::where('fecha_consulta', '>', \Carbon\Carbon::now())->count(),
+        ];
+        return view('modules/dashboard/home', compact('stats'));
     }
 
     public function adminHome() {

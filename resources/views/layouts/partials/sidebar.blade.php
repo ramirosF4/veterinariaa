@@ -12,7 +12,7 @@
         <div class="sidebar-brand-text mx-3">Veterinaria</div>
     </a>
 
-    @if(request()->routeIs(['expedientes.consultas.ver', 'expedientes.consultas.diagnostico', 'expedientes.consultas.tratamiento', 'expedientes.alergias', 'expedientes.patologicos', 'expedientes.lesiones']))
+    @if(request()->routeIs(['expedientes.consultas.ver', 'expedientes.consultas.diagnostico', 'expedientes.consultas.tratamiento', 'expedientes.alergias', 'expedientes.patologicos', 'expedientes.lesiones', 'expedientes.alimentacion']))
         
         {{-- Divider --}}
         <hr class="sidebar-divider">
@@ -85,10 +85,10 @@
         </div>
 
         {{-- Nav Item - Alimentación --}}
-        <li class="nav-item">
-            <a class="nav-link" href="#historial_alimentacion">
+        <li class="nav-item {{ request()->routeIs('expedientes.alimentacion') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('expedientes.alimentacion', ['id' => request()->route('id'), 'consulta_id' => $currentConsultaId ?? null]) }}">
                 <i class="fas fa-fw fa-bone"></i>
-                <span>- Alimentación</span>
+                <span>Alimentación</span>
             </a>
         </li>
 

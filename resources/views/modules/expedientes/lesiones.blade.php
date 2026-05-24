@@ -188,31 +188,4 @@
     </div>
 @endsection
 
-@push('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const deleteForms = document.querySelectorAll('.form-eliminar');
-        deleteForms.forEach(form => {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                if(confirm('¿Está seguro de que desea eliminar este registro de lesión? Esta acción no se puede deshacer.')) {
-                    this.submit();
-                }
-            });
-        });
 
-        // Actualizar el label del input file con el nombre del archivo seleccionado
-        const fileInput = document.querySelector('.custom-file-input');
-        if (fileInput) {
-            fileInput.addEventListener('change', function(e) {
-                let fileName = 'Seleccionar imagen...';
-                if (e.target.files.length > 0) {
-                    fileName = e.target.files[0].name;
-                }
-                const label = e.target.nextElementSibling;
-                label.innerHTML = '<i class="fas fa-upload mr-1 text-warning"></i> ' + fileName;
-            });
-        }
-    });
-</script>
-@endpush
