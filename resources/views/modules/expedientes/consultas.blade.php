@@ -50,6 +50,9 @@
                     <a href="{{ route('expedientes.alergias', $mascota->id) }}" class="btn btn-danger btn-sm shadow-sm mb-2 w-100" title="Gestionar Alergias">
                         <i class="fas fa-allergies fa-sm text-white-50 mr-1"></i> Alergias
                     </a>
+                    <a href="{{ route('expedientes.patologicos', $mascota->id) }}" class="btn btn-info btn-sm shadow-sm mb-2 w-100" title="Gestionar Patológicos">
+                        <i class="fas fa-virus fa-sm text-white-50 mr-1"></i> Patológicos
+                    </a>
                     <a href="{{ route('expedientes.index') }}" class="btn btn-secondary btn-sm shadow-sm w-100">
                         <i class="fas fa-arrow-left fa-sm text-white-50 mr-1"></i> Volver
                     </a>
@@ -93,7 +96,7 @@
                                 <td class="align-middle">{{ $consulta->veterinario ? $consulta->veterinario->name : '—' }}</td>
                                 <td class="align-middle">{{ $consulta->peso ? $consulta->peso . ' kg' : '—' }}</td>
                                 <td class="align-middle">{{ $consulta->talla ? $consulta->talla . ' cm' : '—' }}</td>
-                                <td class="align-middle">{{ $consulta->diagnostico ?? '—' }}</td>
+                                <td class="align-middle">{{ $consulta->diagnostico ? \Illuminate\Support\Str::limit(strip_tags($consulta->diagnostico), 60, '...') : '—' }}</td>
                                 <td class="align-middle text-center">
                                     <a href="{{ route('expedientes.consultas.ver', ['id' => $mascota->id, 'consulta_id' => $consulta->id]) }}" class="btn btn-sm btn-info shadow-sm">
                                         <i class="fas fa-eye fa-sm text-white-50 mr-1"></i> Ver

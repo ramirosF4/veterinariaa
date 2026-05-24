@@ -155,4 +155,38 @@ class ExpedienteController extends Controller
         return redirect()->route('expedientes.alergias', $id)
             ->with('success', 'Alergia eliminada exitosamente.');
     }
+
+    public function patologicos($id)
+    {
+        $mascota = Mascota::with('antecedentePatologicos')->findOrFail($id);
+        return view('modules.expedientes.patologicos', compact('mascota'));
+    }
+
+    public function guardarPatologico(Request $request, $id)
+    {
+        $request->validate([
+            'enfermedad' => 'required|string|max:255',
+        ]);
+
+        $mascota = Mascota::findOrFail($id);
+        
+        $mascota->antecedentePatologicos()->create([
+            'enfermedad' => $request->input('enfermedad'),
+            'es_cronica' => $request->has('es_cronica'),
+        ]);
+
+        return redirect()->route('expedientes.patologicos', $id)
+            ->with('success', 'Enfermedad registrada exitosamente.');
+    }
+
+    public function eliminarPatologico($id, $patologico_id)
+    {
+        $mascota = Mascota::findOrFail($id);
+        $patologico = $mascota->antecedentePatologicos()->findOrFail($patologico_id);
+        
+        $patologico->delete();
+
+        return redirect()->route('expedientes.patologicos', $id)
+            ->with('success', 'Registro eliminado exitosamente.');
+    }
 }
