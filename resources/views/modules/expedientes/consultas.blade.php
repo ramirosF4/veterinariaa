@@ -45,10 +45,13 @@
                     </div>
                 </div>
 
-                <!-- Botón Volver -->
-                <div class="col-md-2 text-center mt-3 mt-md-0">
-                    <a href="{{ route('expedientes.index') }}" class="btn btn-secondary btn-sm shadow-sm">
-                        <i class="fas fa-arrow-left fa-sm text-white-50"></i> Volver
+                <!-- Botones de Acción -->
+                <div class="col-md-2 text-center mt-3 mt-md-0 d-flex flex-column align-items-center justify-content-center">
+                    <a href="{{ route('expedientes.alergias', $mascota->id) }}" class="btn btn-danger btn-sm shadow-sm mb-2 w-100" title="Gestionar Alergias">
+                        <i class="fas fa-allergies fa-sm text-white-50 mr-1"></i> Alergias
+                    </a>
+                    <a href="{{ route('expedientes.index') }}" class="btn btn-secondary btn-sm shadow-sm w-100">
+                        <i class="fas fa-arrow-left fa-sm text-white-50 mr-1"></i> Volver
                     </a>
                 </div>
             </div>

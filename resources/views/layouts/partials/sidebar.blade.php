@@ -12,34 +12,40 @@
         <div class="sidebar-brand-text mx-3">Veterinaria</div>
     </a>
 
-    @if(request()->routeIs(['expedientes.consultas.ver', 'expedientes.consultas.diagnostico', 'expedientes.consultas.tratamiento']))
+    @if(request()->routeIs(['expedientes.consultas.ver', 'expedientes.consultas.diagnostico', 'expedientes.consultas.tratamiento', 'expedientes.alergias']))
         
         {{-- Divider --}}
         <hr class="sidebar-divider">
 
-        {{-- Heading --}}
-        <div class="sidebar-heading">
-            Detalles de Consulta
-        </div>
+        @php
+            $currentConsultaId = request()->route('consulta_id') ?? request('consulta_id');
+        @endphp
 
-        {{-- Nav Item - Diagnóstico --}}
-        <li class="nav-item {{ request()->routeIs('expedientes.consultas.diagnostico') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('expedientes.consultas.diagnostico', ['id' => request()->route('id'), 'consulta_id' => request()->route('consulta_id')]) }}">
-                <i class="fas fa-fw fa-stethoscope"></i>
-                <span>Diagnóstico</span>
-            </a>
-        </li>
+        @if($currentConsultaId)
+            {{-- Heading --}}
+            <div class="sidebar-heading">
+                Detalles de Consulta
+            </div>
 
-        {{-- Nav Item - Tratamiento --}}
-        <li class="nav-item {{ request()->routeIs('expedientes.consultas.tratamiento') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('expedientes.consultas.tratamiento', ['id' => request()->route('id'), 'consulta_id' => request()->route('consulta_id')]) }}">
-                <i class="fas fa-fw fa-pills"></i>
-                <span>Tratamiento</span>
-            </a>
-        </li>
+            {{-- Nav Item - Diagnóstico --}}
+            <li class="nav-item {{ request()->routeIs('expedientes.consultas.diagnostico') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('expedientes.consultas.diagnostico', ['id' => request()->route('id'), 'consulta_id' => $currentConsultaId]) }}">
+                    <i class="fas fa-fw fa-stethoscope"></i>
+                    <span>Diagnóstico</span>
+                </a>
+            </li>
 
-        {{-- Divider --}}
-        <hr class="sidebar-divider">
+            {{-- Nav Item - Tratamiento --}}
+            <li class="nav-item {{ request()->routeIs('expedientes.consultas.tratamiento') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('expedientes.consultas.tratamiento', ['id' => request()->route('id'), 'consulta_id' => $currentConsultaId]) }}">
+                    <i class="fas fa-fw fa-pills"></i>
+                    <span>Tratamiento</span>
+                </a>
+            </li>
+
+            {{-- Divider --}}
+            <hr class="sidebar-divider">
+        @endif
 
         {{-- Heading --}}
         <div class="sidebar-heading">
@@ -47,8 +53,8 @@
         </div>
 
         {{-- Nav Item - Alergias --}}
-        <li class="nav-item">
-            <a class="nav-link" href="#antecedentes_alergias">
+        <li class="nav-item {{ request()->routeIs('expedientes.alergias') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('expedientes.alergias', ['id' => request()->route('id'), 'consulta_id' => $currentConsultaId ?? null]) }}">
                 <i class="fas fa-fw fa-allergies"></i>
                 <span>Alergias</span>
             </a>

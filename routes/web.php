@@ -23,6 +23,11 @@ Route::middleware("auth")->group(function () {
     Route::get('/expedientes/{id}/consultas/{consulta_id}/tratamiento', [App\Http\Controllers\ExpedienteController::class, 'tratamiento'])->name('expedientes.consultas.tratamiento');
     Route::put('/expedientes/{id}/consultas/{consulta_id}/tratamiento', [App\Http\Controllers\ExpedienteController::class, 'guardarTratamiento'])->name('expedientes.consultas.tratamiento.guardar');
 
+    // Rutas de Alergias
+    Route::get('/expedientes/{id}/alergias', [App\Http\Controllers\ExpedienteController::class, 'alergias'])->name('expedientes.alergias');
+    Route::post('/expedientes/{id}/alergias', [App\Http\Controllers\ExpedienteController::class, 'guardarAlergia'])->name('expedientes.alergias.guardar');
+    Route::delete('/expedientes/{id}/alergias/{alergia_id}', [App\Http\Controllers\ExpedienteController::class, 'eliminarAlergia'])->name('expedientes.alergias.eliminar');
+
     // Rutas del Administrador
     Route::get('/admin/home', [AuthController::class, 'adminHome'])->name('admin.home');
 

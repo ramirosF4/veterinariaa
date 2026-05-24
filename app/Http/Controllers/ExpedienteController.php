@@ -120,4 +120,39 @@ class ExpedienteController extends Controller
         return redirect()->route('expedientes.consultas.tratamiento', ['id' => $id, 'consulta_id' => $consulta_id])
             ->with('success', $mensaje);
     }
+
+    public function alergias($id)
+    {
+        $mascota = Mascota::with('antecedenteAlergias')->findOrFail($id);
+        return view('modules.expedientes.alergias', compact('mascota'));
+    }
+
+    public function guardarAlergia(Request $request, $id)
+    {
+        $request->validate([
+            'sustancia_alergena' => 'required|string|max:255',
+            'reaccion' => 'nullable|string|max:255',
+        ]);
+
+        $mascota = Mascota::findOrFail($id);
+        
+        $mascota->antecedenteAlergias()->create([
+            'sustancia_alergena' => $request->input('sustancia_alergena'),
+            'reaccion' => $request->input('reaccion'),
+        ]);
+
+        return redirect()->route('expedientes.alergias', $id)
+            ->with('success', 'Alergia registrada exitosamente.');
+    }
+
+    public function eliminarAlergia($id, $alergia_id)
+    {
+        $mascota = Mascota::findOrFail($id);
+        $alergia = $mascota->antecedenteAlergias()->findOrFail($alergia_id);
+        
+        $alergia->delete();
+
+        return redirect()->route('expedientes.alergias', $id)
+            ->with('success', 'Alergia eliminada exitosamente.');
+    }
 }
