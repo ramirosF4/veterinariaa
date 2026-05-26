@@ -17,6 +17,7 @@ Route::middleware("auth")->group(function () {
     Route::get('/expedientes', [App\Http\Controllers\ExpedienteController::class, 'index'])->name('expedientes.index');
     Route::get('/expedientes/buscar', [App\Http\Controllers\ExpedienteController::class, 'buscar'])->name('expedientes.buscar');
     Route::get('/expedientes/{id}/consultas', [App\Http\Controllers\ExpedienteController::class, 'consultas'])->name('expedientes.consultas');
+    Route::post('/expedientes/{id}/consultas', [App\Http\Controllers\ExpedienteController::class, 'storeConsulta'])->name('expedientes.consultas.store');
     Route::get('/expedientes/{id}/consultas/{consulta_id}', [App\Http\Controllers\ExpedienteController::class, 'verConsulta'])->name('expedientes.consultas.ver');
     Route::get('/expedientes/{id}/consultas/{consulta_id}/diagnostico', [App\Http\Controllers\ExpedienteController::class, 'diagnostico'])->name('expedientes.consultas.diagnostico');
     Route::put('/expedientes/{id}/consultas/{consulta_id}/diagnostico', [App\Http\Controllers\ExpedienteController::class, 'guardarDiagnostico'])->name('expedientes.consultas.diagnostico.guardar');

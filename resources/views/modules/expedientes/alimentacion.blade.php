@@ -96,6 +96,11 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="horarios_comida" class="font-weight-bold text-gray-700">Horarios</label>
+                            <input type="text" class="form-control" id="horarios_comida" name="horarios_comida" placeholder="Ej. 08:00 AM, 06:00 PM" value="{{ old('horarios_comida') }}">
+                        </div>
+
+                        <div class="form-group">
                             <label for="descripcion_dieta" class="font-weight-bold text-gray-700">Descripción principal <span class="text-danger">*</span></label>
                             <textarea class="form-control" id="descripcion_dieta" name="descripcion_dieta" rows="2" placeholder="Ej. Alimento premium para adulto raza pequeña..." required>{{ old('descripcion_dieta') }}</textarea>
                         </div>
@@ -163,6 +168,9 @@
                                             <span class="font-weight-bold">{{ $alimentacion->frecuencia_diaria }} veces al día</span>
                                             @if($alimentacion->cantidad_porcion)
                                                 <br><small class="text-muted">({{ $alimentacion->cantidad_porcion }} por vez)</small>
+                                            @endif
+                                            @if($alimentacion->horarios_comida)
+                                                <br><small class="text-info"><i class="far fa-clock"></i> {{ $alimentacion->horarios_comida }}</small>
                                             @endif
                                         </td>
                                         <td class="align-middle">{{ $alimentacion->created_at ? $alimentacion->created_at->format('d/m/Y') : '—' }}</td>

@@ -41,6 +41,23 @@ class ExpedienteController extends Controller
         return view('modules.expedientes.consultas', compact('mascota'));
     }
 
+    public function storeConsulta(Request $request, $id)
+    {
+        $mascota = Mascota::findOrFail($id);
+
+        $consulta = new \App\Models\Consulta();
+        $consulta->mascota_id = $id;
+        // Si el usuario autenticado es veterinario, se asigna como el doctor de la consulta
+        $consulta->veterinario_id = (auth()->user()->role === 'veterinario' && auth()->user()->veterinario) 
+            ? auth()->user()->veterinario->id 
+            : null;
+        $consulta->fecha_consulta = now();
+        $consulta->save();
+
+        return redirect()->route('expedientes.consultas.ver', ['id' => $id, 'consulta_id' => $consulta->id])
+            ->with('success', 'Nueva consulta iniciada. Puede capturar los detalles ahora.');
+    }
+
     public function verConsulta($id, $consulta_id)
     {
         $mascota = Mascota::with([
@@ -256,6 +273,7 @@ class ExpedienteController extends Controller
             'marca_producto' => 'nullable|string|max:255',
             'cantidad_porcion' => 'nullable|string|max:255',
             'frecuencia_diaria' => 'required|integer|min:1',
+            'horarios_comida' => 'nullable|string|max:255',
             'descripcion_dieta' => 'required|string',
             'observaciones' => 'nullable|string',
         ]);
@@ -267,6 +285,7 @@ class ExpedienteController extends Controller
             'marca_producto' => $request->input('marca_producto'),
             'cantidad_porcion' => $request->input('cantidad_porcion'),
             'frecuencia_diaria' => $request->input('frecuencia_diaria'),
+            'horarios_comida' => $request->input('horarios_comida'),
             'descripcion_dieta' => $request->input('descripcion_dieta'),
             'observaciones' => $request->input('observaciones'),
         ]);

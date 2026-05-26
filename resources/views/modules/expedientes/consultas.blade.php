@@ -67,9 +67,12 @@
             <h6 class="m-0 font-weight-bold text-primary">
                 <i class="fas fa-stethoscope mr-2"></i>Consultas Registradas
             </h6>
-            <button class="btn btn-sm btn-success shadow-sm">
-                <i class="fas fa-plus fa-sm text-white-50 mr-1"></i> Nueva Consulta
-            </button>
+            <form action="{{ route('expedientes.consultas.store', $mascota->id) }}" method="POST" class="m-0">
+                @csrf
+                <button type="submit" class="btn btn-sm btn-success shadow-sm">
+                    <i class="fas fa-plus fa-sm text-white-50 mr-1"></i> Nueva Consulta
+                </button>
+            </form>
         </div>
         <div class="card-body p-0">
             @if($mascota->consultas && $mascota->consultas->count() > 0)
