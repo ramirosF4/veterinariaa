@@ -40,12 +40,16 @@ class AuthController extends Controller
 
     public function home() {
         $stats = [
-            'pacientes' => \App\Models\Mascota::count(),
-            'consultas_hoy' => \App\Models\Consulta::whereDate('fecha_consulta', \Carbon\Carbon::today())->count(),
-            'propietarios' => \App\Models\Dueno::count(),
-            'citas_pendientes' => \App\Models\Consulta::where('fecha_consulta', '>', \Carbon\Carbon::now())->count(),
+            'pacientes' => \App\Models\Mascota::count('*'),
+            'consultas_hoy' => \App\Models\Consulta::whereDate('fecha_consulta', '=', \Carbon\Carbon::today(), 'and')->count(),
+            'propietarios' => \App\Models\Dueno::count('*'),
+            'citas_pendientes' => \App\Models\Consulta::where('fecha_consulta', '>', \Carbon\Carbon::now(), 'and')->count(),
         ];
-        return view('modules/dashboard/home', compact('stats'));
+        
+        $user = Auth::user()->load('veterinario');
+        $veterinario = $user->veterinario;
+
+        return view('modules/dashboard/home', compact('stats', 'veterinario'));
     }
 
     public function adminHome() {

@@ -57,5 +57,9 @@ Route::middleware("auth")->group(function () {
             'update'  => 'users.update',
             'destroy' => 'users.destroy',
         ]);
+        
+        // Rutas de Configuración
+        Route::get('configuracion', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
+        Route::post('configuracion', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
     });
 });

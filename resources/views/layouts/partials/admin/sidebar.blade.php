@@ -7,10 +7,21 @@
 
     {{-- Sidebar Brand --}}
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('admin.home') }}">
-        <div class="sidebar-brand-icon">
-            <i class="fas fa-shield-alt"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">Admin Panel</div>
+        @php
+            $clinicLogo = \App\Models\Setting::where('key', 'clinic_logo')->value('value');
+            $clinicName = \App\Models\Setting::where('key', 'clinic_name')->value('value') ?? 'Admin Panel';
+        @endphp
+        
+        @if($clinicLogo)
+            <div class="sidebar-brand-icon">
+                <img src="{{ asset('storage/' . $clinicLogo) }}" alt="Logo" style="max-height: 40px; border-radius: 5px; max-width: 100%;">
+            </div>
+        @else
+            <div class="sidebar-brand-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3">{{ $clinicName }}</div>
+        @endif
     </a>
 
     {{-- Divider --}}
@@ -58,41 +69,17 @@
         </div>
     </li>
 
-    {{-- Nav Item - Veterinarios --}}
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseVeterinarios"
-            aria-expanded="true" aria-controls="collapseVeterinarios">
-            <i class="fas fa-fw fa-user-md"></i>
-            <span>Veterinarios</span>
-        </a>
-        <div id="collapseVeterinarios" class="collapse" aria-labelledby="headingVeterinarios" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Personal:</h6>
-                <a class="collapse-item" href="#">Ver todos</a>
-                <a class="collapse-item" href="#">Asignar rol</a>
-            </div>
-        </div>
-    </li>
-
     {{-- Divider --}}
     <hr class="sidebar-divider">
 
     {{-- Heading --}}
     <div class="sidebar-heading">
-        Reportes & Configuración
+        Configuración
     </div>
 
-    {{-- Nav Item - Reportes --}}
-    <li class="nav-item">
-        <a class="nav-link" href="#">
-            <i class="fas fa-fw fa-chart-line"></i>
-            <span>Reportes</span>
-        </a>
-    </li>
-
     {{-- Nav Item - Configuración --}}
-    <li class="nav-item">
-        <a class="nav-link" href="#">
+    <li class="nav-item {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.settings.index') }}">
             <i class="fas fa-fw fa-cogs"></i>
             <span>Configuración</span>
         </a>
